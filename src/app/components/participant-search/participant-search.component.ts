@@ -1,11 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { LoginService } from '../../services/login.service';
 
 export interface UserData {
   id: string;
   name: string;
   progress: string;
   color: string;
+}
+
+interface LoginResponse {
+  signature: string;
+  JSESSIONID: string;
+  routing_id: string;
+  nonce: string;
+  cons_id: string;
+  timestamp: string;
+  token: string;
 }
 
 /** Constants used to fill up our data base. */
@@ -53,12 +64,16 @@ export class ParticipantSearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
+  constructor(public login: LoginService) {
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
+
+    this.login.login().subscribe(x => {
+      console.log(x);
+    });
   }
 
   ngOnInit() {
