@@ -1,4 +1,17 @@
 <mat-form-field>
+  <mat-select
+    (selectionChange)="myChange($event)"
+    placeholder="Toppings"
+    [formControl]="toppings"
+    multiple
+  >
+    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
+      topping
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
   <input
     matInput
     (keyup)="applyFilter($event.target.value)"

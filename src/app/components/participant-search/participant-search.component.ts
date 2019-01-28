@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { LoginService } from '../../services/login.service';
 
@@ -17,6 +18,10 @@ interface LoginResponse {
   cons_id: string;
   timestamp: string;
   token: string;
+}
+
+interface MatSelectChange {
+  value: string[];
 }
 
 /** Constants used to fill up our data base. */
@@ -60,6 +65,8 @@ const NAMES: string[] = [
 export class ParticipantSearchComponent implements OnInit {
   displayedColumns: string[] = ['number', 'name', 'location', 'team'];
   dataSource: MatTableDataSource<UserData>;
+  toppings = new FormControl();
+  toppingList: string[] = ['Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -71,9 +78,9 @@ export class ParticipantSearchComponent implements OnInit {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
 
-    this.login.login().subscribe(x => {
-      console.log(x);
-    });
+    // this.login.login().subscribe(x => {
+    //   console.log(x);
+    // });
   }
 
   ngOnInit() {
@@ -86,6 +93,15 @@ export class ParticipantSearchComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  myChange(change: MatSelectChange) {
+    const value = change.value[0];
+    if (!!value) {
+      this.applyFilter(value);
+    } else {
+      this.applyFilter('');
     }
   }
 }
