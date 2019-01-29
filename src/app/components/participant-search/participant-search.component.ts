@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { LoginService } from '../../services/login.service';
 
@@ -66,12 +67,18 @@ export class ParticipantSearchComponent implements OnInit {
   displayedColumns: string[] = ['number', 'name', 'location', 'team'];
   dataSource: MatTableDataSource<UserData>;
   toppings = new FormControl();
+  login: Observable<LoginResponse>;
   toppingList: string[] = ['Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public login: LoginService) {
+  constructor(public ls: LoginService) {
+    this.login = this.ls.login();
+    // this.login.subscribe(response => {
+    //   console.log(response);
+    // });
+
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
 

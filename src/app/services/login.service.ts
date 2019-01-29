@@ -41,6 +41,8 @@ export class LoginService {
           }
         }
       )
-      .pipe(map(x => x.loginResponse.token));
+      .pipe(
+        map(luminateOnlineResponse => luminateOnlineResponse.loginResponse)
+      );
   }
 }
