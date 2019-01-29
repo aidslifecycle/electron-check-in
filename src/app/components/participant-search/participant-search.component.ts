@@ -84,10 +84,6 @@ export class ParticipantSearchComponent implements OnInit {
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
-
-    // this.login.login().subscribe(x => {
-    //   console.log(x);
-    // });
   }
 
   ngOnInit() {
